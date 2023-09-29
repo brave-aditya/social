@@ -10,7 +10,7 @@ import {
   IoIosMail,
   IoIosGlobe,
 } from "react-icons/io";
-import Posts from "../../components/posts/Posts";
+import Posts from "../../components/posts/posts";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 import { useLocation } from "react-router-dom";
