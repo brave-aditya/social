@@ -1,0 +1,89 @@
+@import "../../style.scss";
+ .login{
+    height:100vh;
+    background-color: rgb(193, 190, 255);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .card{
+         width: 50%;
+         display: flex;
+         background-color: white;
+         border-radius: 10px;
+         min-height: 600px;
+         overflow: hidden;
+         @include tablet{
+            width: 90%;
+         }
+         @include mobile{
+            width: 90%;
+         }
+        .left{
+            flex: 1;
+            background: linear-gradient(rgba(39, 11, 96, 0.4), rgba(39,11,96,0.4)) ,url("https://images.pexels.com/photos/6153741/pexels-photo-6153741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1") center;
+            background-size: cover;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            color:white;
+            @include mobile{
+                display: none;
+             }
+            h1{
+                font-size: 80px;
+                line-height: 80px;
+               }
+            span{
+                margin: auto;
+            }
+
+            button{
+                width: 50%;
+                padding: 10px;
+                background-color: white;
+                border: 2px solid blue;
+                border-radius: 30px;
+                color:rebeccapurple;
+                font-weight: bold;
+                cursor: pointer;
+                margin-left: 25%;
+            }
+        }
+        .right{
+            flex: 1;
+            padding: 30px;
+            gap: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            h1{
+                color: #555;
+                font-size: 40px;
+                margin: 0 auto 0 auto;
+            }
+            form{
+                display: flex;
+                flex-direction: column;
+                gap: 50px;
+                input{
+                    border:none;
+                    border-bottom: 1px solid lightgray;
+                    padding: 20px 10px;
+                    outline: none;
+                }
+                button{
+                    width: 50%;
+                    border: none;
+                    padding: 10px;
+                    cursor: pointer;
+                    background-color: #938eef;
+                    color:white;
+                    font-weight: bold;
+                    margin:auto;
+                }
+            }
+        }
+    }
+ }
