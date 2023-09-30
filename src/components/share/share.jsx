@@ -17,7 +17,8 @@ const Share = () => {
   const upload = async ()=>{
       const formData = new FormData();
       formData.append("image", file)
-       axios.post('https://api.imgbb.com/1/upload?key=b99e1b7e44deb3985e33be22d597e53f', formData)  
+       axios.post('https://api.imgbb.com/1/upload?key=b99e1b7e44deb3985e33be22d597e53f', formData) 
+       .then(res => res.json()) 
        .then((res)=>{
         setImgUrl(JSON.stringify(res.data.data.url))
         imgf = res.data.data.url;
