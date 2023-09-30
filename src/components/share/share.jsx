@@ -19,6 +19,9 @@ const Share = () => {
        axios.post('https://api.imgbb.com/1/upload?key=b99e1b7e44deb3985e33be22d597e53f', formData)  
        .then((res)=>{
         setImgUrl(""+res.data.data.url)
+        let imgf = res.data.data.url;
+        console.log(imgf);
+        console.log(res.data.data.url)
         console.log(imgUrl);
        })
        .catch((err)=>{
