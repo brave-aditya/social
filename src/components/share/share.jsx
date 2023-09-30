@@ -13,7 +13,7 @@ const Share = () => {
   const [desc, setDesc] = useState("");
   let imgUrl = "";
 
-  const upload = async ()=>{
+  const upload = ()=>{
       const formData = new FormData();
       formData.append("image", file)
        axios.post('https://api.imgbb.com/1/upload?key=b99e1b7e44deb3985e33be22d597e53f', formData)  
@@ -44,7 +44,7 @@ const Share = () => {
   const handleClick = async (e) =>{
       e.preventDefault();
       
-      if(file) imgUrl = await upload()
+      if(file) imgUrl =upload()
       mutation.mutate({desc, img :imgUrl}) 
       setDesc("");
       setFile(null);
