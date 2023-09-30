@@ -16,14 +16,15 @@ const Update = ({setOpenUpdate, user}) => {
     });
 
     const upload = async (file)=>{
-        try{
-          const formData = new FormData();
-          formData.append("file", file)
-          const res = await makeRequest.post("/upload",formData);
-          return res.data
-        }catch(err){
-          console.log(err)
-        }
+      const formData = new FormData();
+      formData.append("image", file)
+       axios.post('https://api.imgbb.com/1/upload?key=b99e1b7e44deb3985e33be22d597e53f', formData)  
+       .then((res)=>{
+        console.log(res)
+       })
+       .catch((err)=>{
+        console.log(err)
+       }) 
       }
 
       const queryClient = useQueryClient()
@@ -68,7 +69,7 @@ const Update = ({setOpenUpdate, user}) => {
                   src={
                     cover
                       ? URL.createObjectURL(cover)
-                      : "/upload/" + user.coverPic
+                      :  user.coverPic
                   }
                   alt=""
                 />
@@ -88,7 +89,7 @@ const Update = ({setOpenUpdate, user}) => {
                   src={
                     profile
                       ? URL.createObjectURL(profile)
-                      : "/upload/" + user.profilePic
+                      :  user.profilePic
                   }
                   alt=""
                 />
