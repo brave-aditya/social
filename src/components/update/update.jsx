@@ -2,6 +2,7 @@ import { useState, useContext } from 'react'
 import './update.scss'
 import {useQueryClient, useMutation} from '@tanstack/react-query'
 import {makeRequest} from "../../axios"
+import axios from "axios";
 import {IoCloudUploadOutline} from "react-icons/io5" 
 const Update = ({setOpenUpdate, user}) => {
     const [cover, setCover]=useState(null)
