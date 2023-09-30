@@ -37,7 +37,7 @@ return(
             <MdEmail/>
             <MdCircleNotifications/>
             <div className="user">
-                <img src={"/upload/"+currentUser.profilePic} alt="" />
+                <img src={currentUser.profilePic} alt="" />
                 <span>{currentUser.name}</span>
             </div>
         </div>

@@ -11,7 +11,6 @@ import axios from "axios";
 const Share = () => {
   const [file, setFile] = useState(null);
   const [desc, setDesc] = useState("");
-  let imgf="";
 
   const upload = async ()=>{
        imgf="";
