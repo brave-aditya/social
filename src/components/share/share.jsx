@@ -24,6 +24,7 @@ const Share = () => {
         imgf = res.data.data.url;
         console.log(imgf);
         console.log(res.data.data.url)
+        console.log(JSON.stringify(imgf))
         console.log(imgUrl);
        })
        .catch((err)=>{
