@@ -63,8 +63,8 @@ export default function Profile() {
       ) : (
         <>
           <div className="images">
-            <img src={"/upload/"+data.coverPic} className="cover" alt="" />
-            <img src={"/upload/"+data.profilePic} className="profilepic" alt="" />
+            <img src={data.coverPic} className="cover" alt="" />
+            <img src={data.profilePic} className="profilepic" alt="" />
           </div>
           <div className="profilecontainer">
             <div className="userInfo">
