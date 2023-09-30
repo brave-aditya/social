@@ -12,15 +12,17 @@ const Share = () => {
   const [file, setFile] = useState(null);
   const [desc, setDesc] = useState("");
 
-  const upload = async (file)=>{
+  const upload = async ()=>{
       const formData = new FormData();
-      formData.set('key', 'b99e1b7e44deb3985e33be22d597e53f')
       formData.append("file", file)
-      return axios({
-        method: 'post',
-        url: 'https://api.imgbb.com/1/upload',
-        data: formData
-      })   
+      formData.append('key', 'b99e1b7e44deb3985e33be22d597e53f')
+       axios.post('https://api.imgbb.com/1/upload', formData, {})  
+       .then((res)=>{
+        console.log(res)
+       })
+       .catch((err)=>{
+        console.log(err)
+       }) 
   }
 
   const { currentUser } = useContext(AuthContext);
@@ -42,9 +44,7 @@ const Share = () => {
   const handleClick = async (e) =>{
       e.preventDefault();
       let imgUrl = "";
-      if(file)  await upload(file).then(res =>{
-        console.log(res.data.data)
-      })
+      if(file)  await upload()
       mutation.mutate({desc, img :imgUrl}) 
       setDesc("");
       setFile(null);
