@@ -11,20 +11,17 @@ import axios from "axios";
 const Share = () => {
   const [file, setFile] = useState(null);
   const [desc, setDesc] = useState("");
-  const[imgUrl, setImgUrl] = useState("");
   let imgf="";
 
   const upload = async ()=>{
+       imgf="";
       const formData = new FormData();
       formData.append("image", file)
        axios.post('https://api.imgbb.com/1/upload?key=b99e1b7e44deb3985e33be22d597e53f', formData)  
        .then((res)=>{
-        setImgUrl(res.data.data.url)
         imgf = res.data.data.url;
         console.log(imgf);
         console.log(res.data.data.url)
-        console.log(typeof(imgf))
-        console.log(imgUrl);
        })
        .catch((err)=>{
         console.log(err)
@@ -55,7 +52,6 @@ const Share = () => {
       setDesc("");
       setFile(null);
       setImgUrl("");
-      imgf="";
   };
   return (
     <div className="share">
