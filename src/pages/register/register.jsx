@@ -34,6 +34,10 @@ export default function Register(){
         <div className="card">
            <div className="left">
            <h1>Register</h1>
+           <Link to="/login" >
+           <h2>Tap here if you want to login</h2>
+           </Link>
+
             <form>
                 <input type="text" placeholder='Name' name="name" onChange={handleChange}/>
                 <input type="text" placeholder='Username' name="username" onChange={handleChange}/>

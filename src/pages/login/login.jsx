@@ -42,6 +42,9 @@ export default function Login(){
             </div> 
            <div className="right">
             <h1>Login</h1>
+            <Link to="/register" >
+             <h2>Tap here if you don't have an account and want to register</h2>
+            </Link>
             <form>
                 <input type="text" placeholder='Username' name="username" onChange={handleChange}/>
                 <input type="password" placeholder='Password' name="password" onChange={handleChange}/>
