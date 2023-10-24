@@ -1,5 +1,46 @@
+@import "../../style.scss";
 .posts{
     display: flex;
     flex-direction: column;
     gap: 50px;
+    @include themify($themes) {
+    .error{
+        background-color: themed("bg");
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        h1{
+            color: themed("textColor");
+            text-align: center;
+            font-size: 30px;
+        }
+        button{
+            width: 150px;
+            padding: 10px;
+            margin-top: 30px;
+            background-color: white;
+            border: 2px solid blue;
+            border-radius: 30px;
+            color:rebeccapurple;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 30px;
+            a{
+                text-decoration: none;
+            }
+        }
+    }
+    .loading{
+        h1{
+            color: themed("textColor");
+            text-align: center;
+            background-color: themed("bg");
+            border-radius: 20px;
+            font-size: 30px;
+            font-weight: 500;
+        }
+    }
+}
 }
