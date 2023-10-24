@@ -14,9 +14,7 @@ export const AuthContextProvider = ({ children }) => {
   const login = async (inputs) => {
     const res = await axios.post(
       "https://social-server-evtu.onrender.com/api/auth/login",
-      inputs,{
-        withCredentials: true,
-      }
+      inputs
     );
     setCurrentUser(res.data.others);
     setToken(res.data.token)
