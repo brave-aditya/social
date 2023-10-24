@@ -13,7 +13,6 @@ const Share = () => {
   const [desc, setDesc] = useState("");
 
   const upload = async ()=>{
-       imgf="";
       const formData = new FormData();
       formData.append("image", file)
       try{
