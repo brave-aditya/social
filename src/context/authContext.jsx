@@ -8,7 +8,7 @@ export const AuthContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("user")) || null
   );
   const [token, setToken] = useState(
-    JSON.parse(localStorage.getItem("token")) || null
+    localStorage.getItem("token") || null
   );
 
   const login = async (inputs) => {
