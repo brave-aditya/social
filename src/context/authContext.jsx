@@ -14,7 +14,9 @@ export const AuthContextProvider = ({ children }) => {
   const login = async (inputs) => {
     const res = await axios.post(
       "https://social-server-evtu.onrender.com/api/auth/login",
-      inputs,
+      inputs,{
+        withCredentials: true,
+      }
     );
     setCurrentUser(res.data.others);
     setToken(res.data.token)
@@ -24,6 +26,7 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(currentUser));
   }, [currentUser]);
+
   useEffect(() => {
     localStorage.setItem("token", token);
   }, [token]);
