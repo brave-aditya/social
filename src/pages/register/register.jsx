@@ -14,7 +14,7 @@ export default function Register(){
     const [err, setErr] = useState(null);
 
     const handleChange = e =>{
-        setInputs(prev=>({...prev, [e.target.name]:e.target.value}))
+        setInputs((prev)=>({...prev, [e.target.name]:e.target.value}))
     }
 
     const handleSubmit = async e =>{
