@@ -5,7 +5,7 @@ import axios from "axios";
 export const AuthContext = createContext();
 
 // API base URL - consider moving to environment variable
-const API_BASE_URL = "https://social-server-evtu.onrender.com/api";
+const API_BASE_URL = "/api";
 
 export const AuthContextProvider = ({ children }) => {
   // Initialize state from localStorage with error handling

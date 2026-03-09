@@ -21,7 +21,7 @@ export default function Register(){
         e.preventDefault();
 
         try{
-           await axios.post("https://social-server-evtu.onrender.com/api/auth/register", inputs)
+           await axios.post("/api/auth/register", inputs)
 
         }catch(err){
          setErr(err.response.data);
