@@ -16,9 +16,13 @@ app.use(express.json())
   
 app.use(cors());
 
-db.connect(function(err) {
-  if (err) throw err;
+db.getConnection((err, connection) => {
+  if (err) {
+    console.error("Error connecting to the database:", err);
+    return;
+  }
   console.log("Connected to mysql database!");
+  connection.release();
 });
 
 app.use("/api/auth", authRoutes);
@@ -29,6 +33,11 @@ app.use("/api/likes", likeRoutes);
 app.use("/api/relationships", relationshipRoutes);
 
 
-app.listen(PORT,()=>{
+// Only start the server if we're not running in a serverless environment (like Vercel)
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
     console.log(`Api working fine on port:${PORT}`);
-});
+  });
+}
+
+export default app;
