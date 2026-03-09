@@ -1,12 +1,12 @@
 import express from "express";
-import userRoutes from './routes/users.js'
-import authRoutes from './routes/auth.js'
-import postRoutes from './routes/posts.js'
-import commentRoutes from './routes/comments.js'
-import likeRoutes from './routes/likes.js'
-import relationshipRoutes from './routes/relationships.js'
+import userRoutes from '../backend/routes/users.js'
+import authRoutes from '../backend/routes/auth.js'
+import postRoutes from '../backend/routes/posts.js'
+import commentRoutes from '../backend/routes/comments.js'
+import likeRoutes from '../backend/routes/likes.js'
+import relationshipRoutes from '../backend/routes/relationships.js'
 import cors from "cors";
-import { db } from "./connect.js";
+import { db } from "../backend/connect.js";
 const app = express();
 const PORT = process.env.PORT || 8808;
 
