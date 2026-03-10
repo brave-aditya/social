@@ -1,5 +1,4 @@
 import "./leftbar.scss"
-import { useContext, useState } from 'react'
 import Friends from '../../assests/be-kind.png'
 import Groups from '../../assests/group.png'
 import Watch from '../../assests/facebook.png'
@@ -13,13 +12,12 @@ import Marketplace from '../../assests/marketplace.png'
 import Fundraiser from '../../assests/donation.png'
 import Tutorial from '../../assests/be-kind.png'
 import Courses from '../../assests/elearning.png'
-import Profile from '../../assests/profile.png'
-import { AuthContext } from '../../context/authContext.jsx';
+import useAuthStore from '../../stores/useAuthStore.js';
 
-export default function Leftbar(){
+export default function Leftbar() {
+    const currentUser = useAuthStore((state) => state.currentUser);
 
-    const {currentUser} = useContext(AuthContext);
-    return(
+    return (
         <div className="leftbar">
             <div className="container">
                 <div className="menu">
@@ -88,8 +86,7 @@ export default function Leftbar(){
                         <span>Courses</span>
                     </div>
                 </div>
-
             </div>
         </div>
-    )
+    );
 }

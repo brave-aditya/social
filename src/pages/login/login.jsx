@@ -1,11 +1,11 @@
 import './login.scss'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import {Link, useNavigate} from "react-router-dom";
-import { AuthContext } from '../../context/authContext.jsx'
+import useAuthStore from '../../stores/useAuthStore.js'
 
 export default function Login(){
 
-    const {login} = useContext(AuthContext);
+    const login = useAuthStore((state) => state.login);
 
     const [inputs, setInputs] = useState({
         username:"",

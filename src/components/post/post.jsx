@@ -5,59 +5,37 @@ import { CiHeart } from "react-icons/ci";
 import { FcLike } from "react-icons/fc";
 import { AiOutlineComment } from "react-icons/ai";
 import Comments from "../comments/comments";
-import { useContext, useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { makeRequest } from "../../axios";
+import { useState, useEffect } from "react";
+import useLikeStore from "../../stores/useLikeStore";
+import usePostStore from "../../stores/usePostStore";
+import useAuthStore from "../../stores/useAuthStore.js";
 import moment from "moment";
-import { AuthContext } from "../../context/authContext";
 
 const Post = ({ post }) => {
-  
   const [commentOpen, setCommentOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const {currentUser} = useContext(AuthContext)
+  const currentUser = useAuthStore((state) => state.currentUser);
 
-  const { isLoading, error, data } = useQuery({
-    queryKey: ["likes", post.id],
-    queryFn: () =>
-      makeRequest.get("/likes?postId="+post.id).then((res) => {
-        return res.data;
-      }),
-  });
+  const { likes, loadingPosts, fetchLikes, toggleLike } = useLikeStore();
+  const { deletePost, fetchPosts } = usePostStore();
 
-  const queryClient = useQueryClient()
+  const postLikes = likes[post.id] || [];
+  const isLoading = loadingPosts[post.id];
 
-  const mutation = useMutation(
-    (liked) => {
-     if(liked) return makeRequest.delete("/likes?postId="+post.id);
-     return makeRequest.post("/likes",{postId: post.id});
-    },
-    {
-      onSuccess: () => {
-        // Invalidate and refetch
-        queryClient.invalidateQueries(["likes"]);
-      },
-    }
-  );
-  const deleteMutation = useMutation(
-    (postId) => {
-          return makeRequest.delete("/posts/"+postId);
-    },
-    {
-      onSuccess: () => {
-        // Invalidate and refetch
-        queryClient.invalidateQueries(["posts"]);
-      },
-    }
-  );
+  useEffect(() => {
+    fetchLikes(post.id);
+  }, [post.id]);
 
-  const handleDelete = () =>{
-  deleteMutation.mutate(post.id)
-  }
-  const handleLike = () =>{
-    mutation.mutate(data.includes(currentUser.id))
-  }
+  const handleLike = async () => {
+    await toggleLike(post.id, currentUser.id);
+  };
+
+  const handleDelete = async () => {
+    await deletePost(post.id);
+    // Re-fetch posts so the parent list reflects the deletion
+    fetchPosts(post.userId);
+  };
 
   return (
     <div className="post">
@@ -75,8 +53,10 @@ const Post = ({ post }) => {
               <span className="date">{moment(post.createdAt).fromNow()}</span>
             </div>
           </div>
-          <FiMoreHorizontal onClick={()=> setMenuOpen(!menuOpen)}/>
-          {menuOpen && post.userId===currentUser.id && (<button onClick={handleDelete}>Delete</button>)}
+          <FiMoreHorizontal onClick={() => setMenuOpen(!menuOpen)} />
+          {menuOpen && post.userId === currentUser.id && (
+            <button onClick={handleDelete}>Delete</button>
+          )}
         </div>
         <div className="content">
           <p>{post.desc}</p>
@@ -86,8 +66,12 @@ const Post = ({ post }) => {
           <div className="item">
             {isLoading ? (
               "loading"
-            ) : data.includes(currentUser.id)  ? <FcLike onClick={handleLike}/> : <CiHeart onClick={handleLike}/>}
-            {data?.length} likes
+            ) : postLikes.includes(currentUser.id) ? (
+              <FcLike onClick={handleLike} />
+            ) : (
+              <CiHeart onClick={handleLike} />
+            )}
+            {postLikes.length} likes
           </div>
           <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
             <AiOutlineComment />See Comments

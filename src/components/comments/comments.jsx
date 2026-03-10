@@ -1,38 +1,25 @@
 import "./comments.scss";
-import { useContext, useState } from "react";
-import { AuthContext } from "../../context/authContext.jsx";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { makeRequest } from "../../axios";
+import { useState, useEffect } from "react";
+import useAuthStore from "../../stores/useAuthStore.js";
+import useCommentStore from "../../stores/useCommentStore";
 import moment from "moment";
 
 const Comments = ({ postId }) => {
-  const { currentUser } = useContext(AuthContext);
+  const currentUser = useAuthStore((state) => state.currentUser);
   const [desc, setDesc] = useState("");
 
-  const { isLoading, error, data } = useQuery({
-    queryKey: ["comments"],
-    queryFn: () =>
-      makeRequest.get("/comments?postId=" + postId).then((res) => {
-        return res.data;
-      }),
-  });
-  const queryClient = useQueryClient();
+  const { comments, isLoading, fetchComments, addComment } = useCommentStore();
 
-  const mutation = useMutation(
-    (newComment) => {
-      return makeRequest.post("/comments", newComment);
-    },
-    {
-      onSuccess: () => {
-        // Invalidate and refetch
-        queryClient.invalidateQueries(["comments"]);
-      },
-    }
-  );
+  const postComments = comments[postId] || [];
+  const loading = isLoading[postId];
+
+  useEffect(() => {
+    fetchComments(postId);
+  }, [postId]);
 
   const handleClick = async (e) => {
     e.preventDefault();
-    mutation.mutate({ desc, postId });
+    await addComment(postId, desc);
     setDesc("");
   };
 
@@ -48,12 +35,12 @@ const Comments = ({ postId }) => {
         />
         <button onClick={handleClick}>Send</button>
       </div>
-      {isLoading
+      {loading
         ? "loading.."
-        : data.map((comment) => (
-            <div className="comment">
+        : postComments.map((comment) => (
+            <div className="comment" key={comment.id}>
               <img src={comment.profilePic} alt="" />
-              <div className="info" key={comment.id}>
+              <div className="info">
                 <span>{comment.name}</span>
                 <p>{comment.comment}</p>
               </div>

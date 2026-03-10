@@ -1,64 +1,56 @@
-import { useState, useContext } from 'react'
-import './update.scss'
-import {useQueryClient, useMutation} from '@tanstack/react-query'
-import {makeRequest} from "../../axios"
+import { useState } from "react";
+import "./update.scss";
+import useUserStore from "../../stores/useUserStore";
 import axios from "axios";
-import {IoCloudUploadOutline} from "react-icons/io5" 
-const Update = ({setOpenUpdate, user}) => {
-    const [cover, setCover]=useState(null)
-    const [profile, setProfile]=useState(null)
+import { IoCloudUploadOutline } from "react-icons/io5";
 
-    const [texts,setTexts] =useState({
-        city:user.city,
-        password:user.password,
-        name:user.name,
-        email:user.email,
-        website:user.website,
-    });
+const Update = ({ setOpenUpdate, user, userId }) => {
+  const [cover, setCover] = useState(null);
+  const [profile, setProfile] = useState(null);
 
-    const upload = async (file)=>{
-      const formData = new FormData();
-      formData.append("image", file)
-      try{
-        const { data: response } = await axios.post('https://api.imgbb.com/1/upload?key=b99e1b7e44deb3985e33be22d597e53f', formData)
-        return response.data.url; 
-        }catch (error){
-          console.log(error)
-        }  
-      }
+  const [texts, setTexts] = useState({
+    city: user.city,
+    password: user.password,
+    name: user.name,
+    email: user.email,
+    website: user.website,
+  });
 
-      const queryClient = useQueryClient()
+  const { updateUser } = useUserStore();
 
-      const mutation = useMutation(
-        (user) => {
-          return makeRequest.put("/users", user);
-        },
-        {
-          onSuccess: () => {
-            // Invalidate and refetch
-            queryClient.invalidateQueries(["user"]);
-          },
-        }
+  const upload = async (file) => {
+    const formData = new FormData();
+    formData.append("image", file);
+    try {
+      const { data: response } = await axios.post(
+        "https://api.imgbb.com/1/upload?key=b99e1b7e44deb3985e33be22d597e53f",
+        formData
       );
-      const handleClick = async (e) =>{
-        e.preventDefault();
-        let coverUrl;
-        let profileUrl;
-
-        coverUrl = cover ? await upload(cover) : user.coverPic
-        profileUrl = profile ? await upload(profile) : user.profilePic
-
-        mutation.mutate({...texts, coverPic: coverUrl, profilePic: profileUrl}) 
-        
-        setOpenUpdate(false);
-      
-    };
-
-    const handleChange = e =>{
-        setTexts(prev=>({...prev, [e.target.name]:[e.target.value]}))
+      return response.data.url;
+    } catch (error) {
+      console.log(error);
     }
-    return (
-      <div className="update">
+  };
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    const coverUrl = cover ? await upload(cover) : user.coverPic;
+    const profileUrl = profile ? await upload(profile) : user.profilePic;
+
+    await updateUser(
+      { ...texts, coverPic: coverUrl, profilePic: profileUrl },
+      userId
+    );
+
+    setOpenUpdate(false);
+  };
+
+  const handleChange = (e) => {
+    setTexts((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  return (
+    <div className="update">
       <div className="wrapper">
         <h1>Update Your Profile</h1>
         <form>
@@ -67,11 +59,7 @@ const Update = ({setOpenUpdate, user}) => {
               <span>Cover Picture</span>
               <div className="imgContainer">
                 <img
-                  src={
-                    cover
-                      ? URL.createObjectURL(cover)
-                      :  user.coverPic
-                  }
+                  src={cover ? URL.createObjectURL(cover) : user.coverPic}
                   alt=""
                 />
                 <IoCloudUploadOutline className="icon" />
@@ -87,11 +75,7 @@ const Update = ({setOpenUpdate, user}) => {
               <span>Profile Picture</span>
               <div className="imgContainer">
                 <img
-                  src={
-                    profile
-                      ? URL.createObjectURL(profile)
-                      :  user.profilePic
-                  }
+                  src={profile ? URL.createObjectURL(profile) : user.profilePic}
                   alt=""
                 />
                 <IoCloudUploadOutline className="icon" />
@@ -146,6 +130,7 @@ const Update = ({setOpenUpdate, user}) => {
         </button>
       </div>
     </div>
-  )
-}
-export default Update
+  );
+};
+
+export default Update;
